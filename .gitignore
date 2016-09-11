@@ -45,3 +45,7 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+.metadata/*
+ovh-available-servers/log.out
+ovh-available-servers/target/*
+RemoteSystemsTempFiles/.project

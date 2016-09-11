@@ -8,6 +8,7 @@ import org.json.JSONException;
 import com.nfargere.ovhAvailableServers.checker.AvailabilityChecker;
 import com.nfargere.ovhAvailableServers.config.AppConfig;
 import com.nfargere.ovhAvailableServers.config.Properties;
+import com.nfargere.ovhAvailableServers.google.GmailService;
 import com.nfargere.ovhAvailableServers.server.Server;
 import com.nfargere.ovhAvailableServers.server.ServerZone;
 import com.nfargere.ovhAvailableServers.server.ServersList;
@@ -25,37 +26,44 @@ public class App
 		
 		if(!servers.getServers().isEmpty()) {
 			checker.loadJson(cfg.kimsufiJsonUrl());
+			
+			for(Server server : servers.getServers()) {
+				checker.checkServerAvailability(server);
+			}
 		}
 		
-		for(Server server : servers.getServers()) {
-		    try {
-				checker.checkServerAvailability(server);
-				
-				if(server.isAvailable()) {
-					StringBuilder availableZones = new StringBuilder();
-					availableZones.append(server.getId() + " is available at the following zone(s): ");
-					
-					int cnt = 0;
-					for(ServerZone zone : server.getAvailableZones()) {
-						if(cnt > 0) {
-							availableZones.append(", ");
-						}
-						
-						availableZones.append(zone.getName());
-						
-						cnt++;
-					}
-					
-					logger.info(availableZones.toString());
-				}
-				else {
-					logger.info(server.getId() + " is not available");
-				}
+		if(!servers.getAvailableServers().isEmpty()) {
+			String subject;
+			StringBuilder bldr = new StringBuilder();
+			
+			bldr.append("Hi!<br /><br />");
+			
+			if(servers.getAvailableServers().size() > 1) {
+				subject = "Many OVH servers available !!!";
+				bldr.append("The following servers are available:<br />");
 			}
-		    catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			else {
+				subject = "One OVH server available !!!";
+				bldr.append("The following server is available:<br />");
 			}
+			
+			bldr.append("<ul>");
+			
+			for(Server server : servers.getAvailableServers()) {
+				bldr.append("<li>");
+				bldr.append("server "+ server.getId() + ": "+ server.getUrl());
+				bldr.append("</li>");
+			}
+			
+			bldr.append("</ul>");
+			
+			bldr.append("<br /><br />");
+			bldr.append("Good luck!");
+						
+			GmailService.getInstance().sendEmail(cfg.emailTo(), cfg.emailFrom(), subject, bldr.toString());
+		}
+		else {
+			logger.info("No available server found");
 		}
 	}
 }

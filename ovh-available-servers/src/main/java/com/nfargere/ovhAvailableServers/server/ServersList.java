@@ -12,6 +12,18 @@ public class ServersList{
 	public void addServer(Server server) {
 		servers.add(server);
 	}
+	
+	public ArrayList<Server> getAvailableServers() {
+		ArrayList<Server> availableServers = new ArrayList<Server>();
+		
+		for(Server server : getServers()) {
+			if(server.isAvailable()) {
+				availableServers.add(server);
+			}
+		}
+		
+		return availableServers;
+	}
 
 	public ArrayList<Server> getServers() {
 		return servers;

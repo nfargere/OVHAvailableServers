@@ -15,9 +15,11 @@ public class Properties {
 	private static Logger logger = Logger.getLogger(Properties.class);
  
 	private static Properties INSTANCE = null;
+	
+	public static final String PROPERTIES_FILE_NAME = "app.properties";
  
 	private static synchronized Properties getInstance()
-	{			
+	{
 		if (INSTANCE == null)
 		{
 			INSTANCE = new Properties();
@@ -25,13 +27,11 @@ public class Properties {
 			
 	        try {
 	        	ClassLoader loader = Thread.currentThread().getContextClassLoader();
-	        	InputStream resourceStream = loader.getResourceAsStream("app.properties");
+	        	InputStream resourceStream = loader.getResourceAsStream(PROPERTIES_FILE_NAME);
+	        	if(resourceStream == null) {
+	        		logger.error(PROPERTIES_FILE_NAME + " file not found.");
+	        	}
 				props.load(resourceStream);
-			}
-	        catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				logger.error("app.properties file not found");
-				e.printStackTrace();
 			}
 	        catch (IOException e) {
 				logger.error("Error when reading app.properties file");

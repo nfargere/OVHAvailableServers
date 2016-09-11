@@ -10,4 +10,11 @@ public interface AppConfig extends Config {
 	@Key("serversFile")
 	@ConverterClass(ServersConverter.class)
 	ServersList servers();
+	
+	String googleAPIApplicationName();
+	String gmailDataStoreDir();
+	String gmailClientSecret();
+	
+	String emailFrom();
+	String emailTo();
 }
