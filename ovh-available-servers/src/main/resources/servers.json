@@ -1,0 +1,20 @@
+{
+  "servers": [
+    {
+      "id": "160sk1",
+      "url": "https:\/\/www.kimsufi.com\/fr\/commande\/kimsufi.xml?reference=160sk1&quantity=1",
+      "zones": ["fr", "westernEurope"]
+    },
+    {
+      "id": "160sk2",
+      "url": "https:\/\/www.kimsufi.com\/fr\/commande\/kimsufi.xml?reference=160sk2&quantity=1",
+      "zones": ["fr", "westernEurope"]
+    }
+    ,
+    {
+      "id": "160sk3",
+      "url": "https:\/\/www.kimsufi.com\/fr\/commande\/kimsufi.xml?reference=160sk3&quantity=1",
+      "zones": ["fr", "westernEurope"]
+    }
+  ]
+}
